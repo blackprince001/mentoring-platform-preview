@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 import { Search } from "lucide-react"
-import { useState } from "react"
 
 const conversations = [
   {
@@ -41,18 +40,29 @@ const conversations = [
   },
 ]
 
-export function MessageList() {
-  const [selectedId, setSelectedId] = useState(1)
-
+export function MessageList({
+  selectedId,
+  setSelectedId,
+  isMobile,
+}: {
+  selectedId: number
+  setSelectedId: (id: number) => void
+  isMobile: boolean
+}) {
   return (
-    <div className="flex w-full flex-col border-r md:w-[300px]">
+    <div
+      className={cn(
+        "flex w-full flex-col border-r md:w-[300px]",
+        isMobile && selectedId === 0 ? "block" : "hidden md:block",
+      )}
+    >
       <div className="p-4 border-b">
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search messages..." className="pl-8" />
         </div>
       </div>
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 py-4">
         {conversations.map((conversation) => (
           <Button
             key={conversation.id}
@@ -92,4 +102,3 @@ export function MessageList() {
     </div>
   )
 }
-

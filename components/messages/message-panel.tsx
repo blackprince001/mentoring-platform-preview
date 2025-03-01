@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
 import { Paperclip, Send } from "lucide-react"
 import { useState } from "react"
 
@@ -37,30 +38,50 @@ const messages = [
   },
 ]
 
-export function MessagePanel() {
+export function MessagePanel({
+  selectedId,
+  isMobile,
+  onBack,
+}: {
+  selectedId: number
+  isMobile: boolean
+  onBack: () => void
+}) {
   const [message, setMessage] = useState("")
 
   return (
-    <Card className="flex flex-1 flex-col">
-      <div className="flex items-center gap-4 border-b p-4">
-        <Avatar>
-          <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Sarah Wilson" />
-          <AvatarFallback>SW</AvatarFallback>
-        </Avatar>
-        <div>
-          <h3 className="font-semibold">Sarah Wilson</h3>
-          <p className="text-sm text-muted-foreground">Online</p>
+    <Card className={cn("flex flex-1 flex-col", isMobile && selectedId === 0 ? "hidden" : "block")}>
+      {isMobile && (
+        <div className="flex items-center gap-4 border-b p-4">
+          <Button variant="ghost" onClick={onBack}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </Button>
+          <Avatar>
+            <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Sarah Wilson" />
+            <AvatarFallback>SW</AvatarFallback>
+          </Avatar>
+          <div>
+            <h3 className="font-semibold">Sarah Wilson</h3>
+            <p className="text-sm text-muted-foreground">Online</p>
+          </div>
         </div>
-      </div>
+      )}
 
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.sender === "mentor" ? "justify-start" : "justify-end"}`}>
               <div
-                className={`rounded-lg px-4 py-2 max-w-[80%] ${
-                  msg.sender === "mentor" ? "bg-muted" : "bg-primary text-primary-foreground"
-                }`}
+                className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.sender === "mentor" ? "bg-muted" : "bg-primary text-primary-foreground"
+                  }`}
               >
                 <p className="text-sm">{msg.content}</p>
                 <span className="text-xs opacity-70">{msg.timestamp}</span>
@@ -90,4 +111,3 @@ export function MessagePanel() {
     </Card>
   )
 }
-

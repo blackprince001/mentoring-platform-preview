@@ -9,7 +9,7 @@ export default function StudentDashboard() {
   const user = getCurrentUser()
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-8 py-4">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Student Dashboard</h2>
         <p className="text-muted-foreground">Welcome back, {user.name}. Here's an overview of your learning journey.</p>

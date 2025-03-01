@@ -22,9 +22,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="min-h-screen bg-background">
+          <div className="bg-background">
             <MainNav />
             <main>{children}</main>
+            <div className="space-y-8"></div>
+            <Footer />
           </div>
         </ThemeProvider>
       </body>
@@ -35,3 +37,4 @@ export default function RootLayout({
 
 
 import './globals.css'
+import { Footer } from "@/components/footer"
